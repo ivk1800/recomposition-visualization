@@ -1,0 +1,62 @@
+<resources>
+    <string name="app_title">Recomposition visualization</string>
+    <string name="explanation">Explanation</string>
+    <string name="how_good">What's best</string>
+
+    <string name="composition_local_title">Use composition local for frequently changing state variables (Good).</string>
+    <string name="static_composition_local_title">Do not use static composition local for frequently changing state variables (Bad).</string>
+    <string name="lambda_modifiers_good_title">Use lambda-based modifiers for frequently changing state variables (Good).</string>
+    <string name="not_lambda_modifiers_bad_title">Do not use value based modifiers for frequently changing state variables (Bad).</string>
+    <string name="avoid_unnecessary_state_reads_bad_title">Unnecessary state reads (Bad).</string>
+    <string name="avoid_unnecessary_state_reads_1_good_title">Get rid of intermediate recompositions using State (Good).</string>
+    <string name="avoid_unnecessary_state_reads_2_good_title">Get rid of intermediate recompositions using Lambda (Good).</string>
+    <string name="derived_state_of_bad_title">Read frequently changing value leads to recomposition (Bad).</string>
+    <string name="derived_state_of_title">Use derivedStateOf to limit recompositions.</string>
+    <string name="read_state_good_title">Read the state in the nearest scope as possible (Good).</string>
+    <string name="read_state_bad_title">Do not read the state in the parent scope if it is not necessary. (Bad).</string>
+    <string name="immutable_type_title">Use immutable type to reduce recompositions (Good).</string>
+    <string name="unstable_type_title">Unstable type leads to recomposition (Bad).</string>
+    <string name="movable_content_of_title">Use movableContentOf to reduce recompositions.</string>
+    <string name="launch_effect_key_bad_title">Do not use frequently changing value as LaunchEffect key (Bad).</string>
+    <string name="launch_effect_key_good_title">Use snapshotFlow frequently changing value (Good).</string>
+    <string name="lazy_list_without_key_bad_title">Default key in Lazy(Column/Row) leads to recomposition (Bad).</string>
+    <string name="lazy_list_with_key_good">Use custom key in Lazy(Column/Row) for reduce recompositions (Good).</string>
+
+    <string name="composition_local_explanation">compositionLocalOf: Changing the value provided during recomposition invalidates only the content that reads its current value. Please note that the GreenBox is not recomposed.</string>
+    <string name="static_composition_local_explanation">staticCompositionLocalOf: Unlike compositionLocalOf, reads of a staticCompositionLocalOf are not tracked by Compose. Changing the value causes the entirety of the content lambda where the CompositionLocal is provided to be recomposed, instead of just the places where the current value is read in the Composition. Please note that the GreenBox is being recomposed.</string>
+    <string name="avoid_unnecessary_state_reads_bad_explanation">Here, angle is passed through the chain Function1 -> Function2 -> Function3 -> RedBox.
+Each function takes angle as a parameter and will be recomposed every time the value changes. Function1, Function2, and Function3 themselves don’t do anything with angle except passing it further. But since angle is a parameter, Compose considers them dependent on the state and recomposes them.</string>
+    <string name="avoid_unnecessary_state_reads_1_good_explanation">Now Function1, Function2, and Function3 don’t depend on the specific value of angle, but instead receive a State&lt;Float&gt; object.
+Since State is a stable type, Compose sees that the reference to the object does not change when angle.value updates.
+Recomposition happens only where angle.value is actually read — in RedBox.
+Thus, unnecessary recompositions of intermediate functions disappear.</string>
+    <string name="avoid_unnecessary_state_reads_2_good_explanation">Now Function1, Function2, and Function3 receive a lambda () -> Float instead of the actual angle value.
+Since the lambda itself is stable and does not change when the state updates, Compose sees that the reference to the object stays the same, and recomposition happens only where angle.invoke() is called — in RedBox.
+Thus, unnecessary recompositions of intermediate functions disappear.</string>
+    <string name="not_lambda_modifiers_bad_explanation">In this code, the problem is that modifiers (.rotate(angle), etc.) are built inside a @Composable function and directly depend on the mutable state (angle).
+When angle changes, Compose considers the entire Modifier chain changed and rebuilds it completely. This causes unnecessary recompositions.</string>
+    <string name="lambda_modifiers_good_explanation">In this code, the graphicsLayer modifier takes a lambda. It is stable and does not get recreated when the state changes, so the modifier itself remains the same object. When angle changes, Compose simply re-invokes the lambda during the drawing phase, updating the rotationZ property.
+Thus, instead of rebuilding the entire modifier chain on every state change (as with .rotate(angle)), only the parameter changes and the UI is redrawn, which makes the update more efficient.</string>
+    <string name="read_state_bad_explanation">The count variable is read inside Column { ... }, which means Column re-reads countState.value on every recomposition. This causes the entire Column to recompose whenever countState changes, even though the value is only actually used in one place — inside content.
+In other words: the state read is placed too “high”. As a result, more components subscribe to changes than really need to.</string>
+    <string name="read_state_good_explanation">The countState is read exactly where it is needed — inside content. Thanks to this, only content reacts to changes, not the entire Column.
+That means the subscription area has been narrowed, and now only the part of the UI that truly depends on countState will recompose when it changes.</string>
+    <string name="unstable_type_explanation">MyData is a data class without the @Stable annotation. In Compose, such classes are considered unstable, even if they contain only “simple” fields. Because of this, every recomposition (triggered by count.value changes) will recreate MyData(listOf("test")) in RedBox.
+Moreover, List&lt;String&gt; itself is unstable (there are no guarantees it won’t change). Therefore, MyData also inherits this instability.
+As a result, Compose cannot optimize the check and will always recompose RedBox, even if the data hasn’t actually changed.</string>
+    <string name="immutable_type_explanation">@Immutable explicitly tells Compose that a MyData instance is immutable: its fields do not change after creation, so with the same arguments, the object can be considered “equivalent.” Thanks to this, the Compose compiler and runtime can skip unnecessary recompositions: if the new MyData equals the old one, RedBox won’t be redrawn. Even though List&lt;String&gt; itself is unstable, the @Immutable annotation tells Compose: “this object is immutable and we don’t mutate the list inside, so treat it as safe.” This removes unnecessary recomposition triggers.
+Now RedBox will actually recompose only when the data really changes.</string>
+    <string name="movable_content_of_explanation">movableContentOf creates a Composable that can be moved between different places in the composition tree while preserving its state. When moving content from Column to Row (or vice versa), unnecessary recompositions of the inner RedBox and GreenBox do not occur. Their state is preserved, and Compose does not recreate these components.</string>
+    <string name="launch_effect_key_bad_explanation">In Compose, the key defines when an effect should restart. Every time count.value changes, Compose sees the key as changed and completely recreates the LaunchedEffect. Even if the effect only does something simple (like println), it still restarts, which in real apps can be costly.
+LaunchedEffect is meant for launching actions once or when dependencies truly change, not every time a simple state changes. Here we are just logging the value — this doesn’t require restarting the effect, it’s enough to simply read the value inside the block.
+Using a state value as a key unnecessarily is a bad practice, because it causes extra recompositions and restarts of effects.</string>
+    <string name="launch_effect_key_good_explanation">Here the key is the count object itself, not its value count.value. LaunchedEffect runs once at EntryPoint creation and is not recreated on every value change. To track count.value updates, snapshotFlow { count.value } is used, which produces a flow of state changes. Inside collect, logging happens only when count.value actually changes. Compose does not recreate the whole effect or waste resources on repeated launches.</string>
+    <string name="lazy_list_with_key_good_explanation">A LazyColumn is created with items, and each element uses a key = { index -> items[index].id }. This ensures that Compose matches Composables with specific items by id, not by position in the list. Inside the LazyColumn, elements are divided into Even and Odd, each using remember to save creation time (time).
+Without keys, when a new item is inserted at the start, Compose cannot tell that old items just shifted down. All elements would be recreated, and time would be refreshed for all of them, even though they didn’t really change. That’s why using items[index].id as a key is critical for optimization.
+Thanks to this, only new or changed elements recompose. The others remain unaffected, which saves resources on large lists.</string>
+    <string name="lazy_list_without_key_bad_explanation">In this example, LazyColumn renders items without keys, matching Composables by position (index). When a new element is added at the start, all items shift down, and Compose thinks there is a new item at each position. As a result, all Composables are recreated. You can clearly see that when adding a new element, Odd and Even both recompose, even though the actual data hasn’t changed.</string>
+    <string name="derived_state_of_explanation">In this example, derivedStateOf is used to calculate the background color based on the scroll position of the LazyColumn. Instead of recalculating the color on every tiny scroll and causing unnecessary recompositions, Compose updates the state only when the actual condition changes (firstVisibleItemIndex > 0). This reduces redundant computations and makes the code more efficient.</string>
+    <string name="derived_state_of_bad_explanation">Here, state.firstVisibleItemIndex is used directly in the condition, so every tiny list movement (like scrolling by a couple of pixels, even without switching items) triggers a new recomposition of the entire Box, even if the color stays the same. This means we overload the system with useless computations and redraws, which give the user no visible effect.
+In short, Compose reacts to any LazyListState change, not to the logical condition “index > 0 or not.” So instead of optimized updates, we get a stream of meaningless recompositions.</string>
+
+</resources>

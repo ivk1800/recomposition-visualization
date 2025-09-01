@@ -1,0 +1,18 @@
+style:
+  NewLineAtEndOfFile:
+    active: true
+  UnusedImports:
+    active: true
+  WildcardImport:
+    active: true
+
+formatting:
+  active: true
+  SpacingAroundColon:
+    active: true
+  NoConsecutiveBlankLines:
+    active: true
+  TrailingCommaOnCallSite:
+    active: true
+  TrailingCommaOnDeclarationSite:
+    active: true

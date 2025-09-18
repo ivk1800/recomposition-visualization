@@ -10,11 +10,17 @@ plugins {
     alias(libs.plugins.hotReload)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.dependencyGuard)
+    alias(libs.plugins.buildconfig)
 }
 
 dependencyGuard {
     configuration("jsRuntimeClasspath")
     configuration("jsCompileClasspath")
+}
+
+buildConfig {
+    buildConfigField("String", "KOTLIN_VERSION", "\"${libs.versions.kotlin.get()}\"")
+    buildConfigField("String", "COMPOSE_VERSION", "\"${libs.versions.compose.get()}\"")
 }
 
 kotlin {

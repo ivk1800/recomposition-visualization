@@ -2,6 +2,9 @@
     <string name="app_title">Recomposition visualization</string>
     <string name="explanation">Explanation</string>
     <string name="how_good">What's best</string>
+    <string name="build_info">Build info</string>
+    <string name="kotlin_version">Kotlin: %1$s</string>
+    <string name="compose_version">Compose: %1$s</string>
 
     <string name="composition_local_title">Use composition local for frequently changing state variables (Good).</string>
     <string name="static_composition_local_title">Do not use static composition local for frequently changing state variables (Bad).</string>

@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.detekt.gradle)
     alias(libs.plugins.kotlin.serialization).apply(false)
     alias(libs.plugins.dependencyGuard).apply(false)
+    alias(libs.plugins.buildconfig).apply(false)
 }
 
 subprojects {

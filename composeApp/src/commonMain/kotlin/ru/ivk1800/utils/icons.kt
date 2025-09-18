@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
+import androidx.compose.ui.graphics.StrokeCap.Companion.Round
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.DefaultFillType
@@ -159,3 +160,47 @@ val DarkMode: ImageVector
     }
 
 private var _darkMode: ImageVector? = null
+
+val AlertCircle: ImageVector
+    get() {
+        if (_alertCircle != null) {
+            return _alertCircle!!
+        }
+        _alertCircle = materialIcon(name = "Infosys", autoMirror = false) {
+            path(
+                fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0f,
+                strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
+                pathFillType = NonZero,
+            ) {
+                path(
+                    fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF000000)),
+                    strokeLineWidth = 2.0f, strokeLineCap = Round, strokeLineJoin =
+                        StrokeJoin.Companion.Round, strokeLineMiter = 4.0f, pathFillType = NonZero,
+                ) {
+                    moveTo(12.0f, 12.0f)
+                    moveToRelative(-9.0f, 0.0f)
+                    arcToRelative(9.0f, 9.0f, 0.0f, true, true, 18.0f, 0.0f)
+                    arcToRelative(9.0f, 9.0f, 0.0f, true, true, -18.0f, 0.0f)
+                }
+                path(
+                    fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF000000)),
+                    strokeLineWidth = 2.0f, strokeLineCap = Round, strokeLineJoin =
+                        StrokeJoin.Companion.Round, strokeLineMiter = 4.0f, pathFillType = NonZero,
+                ) {
+                    moveTo(12.0f, 8.0f)
+                    lineTo(12.0f, 12.0f)
+                }
+                path(
+                    fill = SolidColor(Color(0x00000000)), stroke = SolidColor(Color(0xFF000000)),
+                    strokeLineWidth = 2.0f, strokeLineCap = Round, strokeLineJoin =
+                        StrokeJoin.Companion.Round, strokeLineMiter = 4.0f, pathFillType = NonZero,
+                ) {
+                    moveTo(12.0f, 16.0f)
+                    lineTo(12.01f, 16.0f)
+                }
+            }
+        }
+        return _alertCircle!!
+    }
+
+private var _alertCircle: ImageVector? = null

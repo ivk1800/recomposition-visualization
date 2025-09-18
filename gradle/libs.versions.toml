@@ -6,6 +6,7 @@ compose = "1.9.0"                   # https://github.com/JetBrains/compose-multi
 hotReload = "1.0.0-beta07"          # https://github.com/JetBrains/compose-hot-reload/releases
 ktor = "3.2.1"
 detekt = "1.23.7"
+buildconfig = "5.6.8"
 
 [libraries]
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
@@ -20,3 +21,4 @@ hotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "hotReload"
 detekt-gradle = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 dependencyGuard = { id = "com.dropbox.dependency-guard", version.ref = "dependency-guard" }
+buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig" }

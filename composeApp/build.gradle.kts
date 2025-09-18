@@ -9,6 +9,12 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.hotReload)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.dependencyGuard)
+}
+
+dependencyGuard {
+    configuration("jsRuntimeClasspath")
+    configuration("jsCompileClasspath")
 }
 
 kotlin {

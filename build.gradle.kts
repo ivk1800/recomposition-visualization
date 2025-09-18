@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.hotReload).apply(false)
     alias(libs.plugins.detekt.gradle)
     alias(libs.plugins.kotlin.serialization).apply(false)
+    alias(libs.plugins.dependencyGuard).apply(false)
 }
 
 subprojects {

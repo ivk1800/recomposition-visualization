@@ -84,7 +84,7 @@ fun HighlightedText(text: String) {
                     launch {
                         rectanglesState.addAll(newRectangles)
                         delay(100.milliseconds)
-                        rectanglesState.removeAll(newRectangles)
+                        newRectangles.forEach(rectanglesState::remove)
                     }
                 }
         }

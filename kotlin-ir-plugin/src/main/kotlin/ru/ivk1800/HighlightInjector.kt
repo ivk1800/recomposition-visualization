@@ -6,8 +6,11 @@ import org.jetbrains.kotlin.ir.IrFileEntry
 import org.jetbrains.kotlin.ir.UNDEFINED_OFFSET
 import org.jetbrains.kotlin.ir.declarations.IrClass
 import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
+import org.jetbrains.kotlin.ir.expressions.IrBlock
 import org.jetbrains.kotlin.ir.expressions.IrBlockBody
 import org.jetbrains.kotlin.ir.expressions.IrFunctionExpression
+import org.jetbrains.kotlin.ir.expressions.IrStatementContainer
+import org.jetbrains.kotlin.ir.expressions.IrWhileLoop
 import org.jetbrains.kotlin.ir.expressions.impl.IrCallImpl
 import org.jetbrains.kotlin.ir.expressions.impl.IrConstImpl
 import org.jetbrains.kotlin.ir.expressions.impl.fromSymbolOwner
@@ -43,19 +46,26 @@ class HighlightInjector(
 
     override fun visitSimpleFunction(declaration: IrSimpleFunction, data: Data) {
         val irClass = data.irClass ?: return
-        val body: IrBlockBody = declaration.body as? IrBlockBody ?: return
+        val body = declaration.body as? IrStatementContainer ?: return
         injectHighlightCall(fileEntry = irClass.fileEntry, body = body)
         super.visitSimpleFunction(declaration, data)
     }
 
     override fun visitFunctionExpression(expression: IrFunctionExpression, data: Data) {
         val irClass = data.irClass ?: return
-        val body = expression.function.body as? IrBlockBody ?: return
+        val body = expression.function.body as? IrStatementContainer ?: return
         injectHighlightCall(fileEntry = irClass.fileEntry, body = body)
         super.visitFunctionExpression(expression, data)
     }
 
-    private fun injectHighlightCall(fileEntry: IrFileEntry, body: IrBlockBody) {
+    override fun visitWhileLoop(loop: IrWhileLoop, data: Data) {
+        val irClass = data.irClass ?: return
+        val body = loop.body as? IrStatementContainer ?: return
+        injectHighlightCall(fileEntry = irClass.fileEntry, body = body)
+        super.visitWhileLoop(loop, data)
+    }
+
+    private fun injectHighlightCall(fileEntry: IrFileEntry, body: IrStatementContainer) {
         val bodySourceRangeInfo = fileEntry.getSourceRangeInfo(
             beginOffset = body.startOffset,
             endOffset = body.endOffset,

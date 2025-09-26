@@ -24,6 +24,10 @@
     <string name="launch_effect_key_good_title">Use snapshotFlow frequently changing value (Good).</string>
     <string name="lazy_list_without_key_bad_title">Default key in Lazy(Column/Row) leads to recomposition (Bad).</string>
     <string name="lazy_list_with_key_good">Use custom key in Lazy(Column/Row) for reduce recompositions (Good).</string>
+    <string name="without_remember_updated_state_title">Long-lived lambda referenced parameters or values. (Bad).</string>
+    <string name="with_remember_updated_state_title">Use rememberUpdatedState when parameters or values referenced by a long-lived lambda. (Good).</string>
+    <string name="launch_effect_without_key_title">LaunchedEffect without key referenced parameters or values (Bad).</string>
+    <string name="launch_effect_with_key_title">Use keys in LaunchedEffect (Good).</string>
 
     <string name="composition_local_explanation">compositionLocalOf: Changing the value provided during recomposition invalidates only the content that reads its current value. Please note that the GreenBox is not recomposed.</string>
     <string name="static_composition_local_explanation">staticCompositionLocalOf: Unlike compositionLocalOf, reads of a staticCompositionLocalOf are not tracked by Compose. Changing the value causes the entirety of the content lambda where the CompositionLocal is provided to be recomposed, instead of just the places where the current value is read in the Composition. Please note that the GreenBox is being recomposed.</string>
@@ -61,5 +65,9 @@ Thanks to this, only new or changed elements recompose. The others remain unaffe
     <string name="derived_state_of_explanation">In this example, derivedStateOf is used to calculate the background color based on the scroll position of the LazyColumn. Instead of recalculating the color on every tiny scroll and causing unnecessary recompositions, Compose updates the state only when the actual condition changes (firstVisibleItemIndex > 0). This reduces redundant computations and makes the code more efficient.</string>
     <string name="derived_state_of_bad_explanation">Here, state.firstVisibleItemIndex is used directly in the condition, so every tiny list movement (like scrolling by a couple of pixels, even without switching items) triggers a new recomposition of the entire Box, even if the color stays the same. This means we overload the system with useless computations and redraws, which give the user no visible effect.
 In short, Compose reacts to any LazyListState change, not to the logical condition “index > 0 or not.” So instead of optimized updates, we get a stream of meaningless recompositions.</string>
-
+    <string name="without_remember_updated_state_explanation">The problem is that LaunchedEffect(Unit) captures the onAngleChanged lambda once at startup. When the direction changes in the composition, the external reference updates, but the coroutine continues to call the old version of the function. Because of this, new changes are not applied.</string>
+    <string name="with_remember_updated_state_explanation">Here the stale lambda problem is solved: rememberUpdatedState holds the actual reference to onAngleChanged, and the coroutine inside LaunchedEffect always calls the latest function, even if the direction changes. rememberUpdatedState is a wrapper around a value that always keeps the latest version, but does not restart LaunchedEffect or other side effects.</string>
+    <string name="launch_effect_without_key_explanation">LaunchedEffect(Unit) captures pagerState, which was created during the first composition.
+When Reset is pressed (keyState changes -> a new pagerState is created), the coroutine continues to work with the old state. The new pagerState is not animated.</string>
+    <string name="launch_effect_with_key_explanation">In this version the problem is solved: LaunchedEffect is tied to pagerState, so when it is recreated the old coroutine is canceled and a new one is launched. As a result, after pressing Reset the animation continues with the actual state.</string>
 </resources>

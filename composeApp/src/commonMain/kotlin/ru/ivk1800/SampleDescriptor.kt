@@ -24,6 +24,10 @@ import ru.ivk1800.resources.launch_effect_key_bad_explanation
 import ru.ivk1800.resources.launch_effect_key_bad_title
 import ru.ivk1800.resources.launch_effect_key_good_explanation
 import ru.ivk1800.resources.launch_effect_key_good_title
+import ru.ivk1800.resources.launch_effect_with_key_explanation
+import ru.ivk1800.resources.launch_effect_with_key_title
+import ru.ivk1800.resources.launch_effect_without_key_explanation
+import ru.ivk1800.resources.launch_effect_without_key_title
 import ru.ivk1800.resources.lazy_list_with_key_good
 import ru.ivk1800.resources.lazy_list_with_key_good_explanation
 import ru.ivk1800.resources.lazy_list_without_key_bad_explanation
@@ -40,6 +44,10 @@ import ru.ivk1800.resources.static_composition_local_explanation
 import ru.ivk1800.resources.static_composition_local_title
 import ru.ivk1800.resources.unstable_type_explanation
 import ru.ivk1800.resources.unstable_type_title
+import ru.ivk1800.resources.with_remember_updated_state_explanation
+import ru.ivk1800.resources.with_remember_updated_state_title
+import ru.ivk1800.resources.without_remember_updated_state_explanation
+import ru.ivk1800.resources.without_remember_updated_state_title
 import ru.ivk1800.sample.AvoidUnnecessaryStateReadsBadSample
 import ru.ivk1800.sample.AvoidUnnecessaryStateReadsGood1Sample
 import ru.ivk1800.sample.AvoidUnnecessaryStateReadsGood2Sample
@@ -49,6 +57,8 @@ import ru.ivk1800.sample.ImmutableTypeGoodSample
 import ru.ivk1800.sample.LambdaModifiersGoodSample
 import ru.ivk1800.sample.LaunchEffectKeyBadSample
 import ru.ivk1800.sample.LaunchEffectKeyGoodSample
+import ru.ivk1800.sample.LaunchEffectWithKeySample
+import ru.ivk1800.sample.LaunchEffectWithoutKeySample
 import ru.ivk1800.sample.LazyListWithKeyGoodSample
 import ru.ivk1800.sample.LazyListWithoutKeyBadSample
 import ru.ivk1800.sample.MovableContentOfSample
@@ -57,7 +67,9 @@ import ru.ivk1800.sample.ReadStateBadSample
 import ru.ivk1800.sample.ReadStateGoodSample
 import ru.ivk1800.sample.StaticCompositionLocalSample
 import ru.ivk1800.sample.UnstableTypeBadSample
+import ru.ivk1800.sample.WithRememberUpdatedStateSample
 import ru.ivk1800.sample.WithoutDerivedStateOfSample
+import ru.ivk1800.sample.WithoutRememberUpdatedStateSample
 
 @Serializable
 enum class SampleDescriptor(
@@ -211,5 +223,37 @@ enum class SampleDescriptor(
         title = Res.string.lazy_list_without_key_bad_title,
         explanation = Res.string.lazy_list_without_key_bad_explanation,
         good = LazyListWithKey,
+    ),
+    WithRememberUpdatedState(
+        id = 17,
+        entryPoint = { WithRememberUpdatedStateSample.EntryPoint() },
+        sourceCode = { WithRememberUpdatedStateSample.HighlightedSourceCode() },
+        title = Res.string.with_remember_updated_state_title,
+        explanation = Res.string.with_remember_updated_state_explanation,
+        good = null,
+    ),
+    WithoutRememberUpdatedState(
+        id = 18,
+        entryPoint = { WithoutRememberUpdatedStateSample.EntryPoint() },
+        sourceCode = { WithoutRememberUpdatedStateSample.HighlightedSourceCode() },
+        title = Res.string.without_remember_updated_state_title,
+        explanation = Res.string.without_remember_updated_state_explanation,
+        good = WithRememberUpdatedState,
+    ),
+    LaunchEffectWithKey(
+        id = 19,
+        entryPoint = { LaunchEffectWithKeySample.EntryPoint() },
+        sourceCode = { LaunchEffectWithKeySample.HighlightedSourceCode() },
+        title = Res.string.launch_effect_with_key_title,
+        explanation = Res.string.launch_effect_with_key_explanation,
+        good = null,
+    ),
+    LaunchEffectWithoutKey(
+        id = 20,
+        entryPoint = { LaunchEffectWithoutKeySample.EntryPoint() },
+        sourceCode = { LaunchEffectWithoutKeySample.HighlightedSourceCode() },
+        title = Res.string.launch_effect_without_key_title,
+        explanation = Res.string.launch_effect_without_key_explanation,
+        good = LaunchEffectWithKey,
     ),
 }

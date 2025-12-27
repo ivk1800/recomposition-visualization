@@ -20,6 +20,10 @@ The app is available [here](https://ivk1800.github.io/recomposition-visualizatio
 ```bash
 ./gradlew :composeApp:run
 ```
+Or
+```bash
+./gradlew :composeApp:hotRunJvm
+```
 
 ### JS Browser
 ```bash

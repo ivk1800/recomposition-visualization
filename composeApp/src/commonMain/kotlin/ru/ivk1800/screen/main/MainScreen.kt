@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
@@ -40,6 +41,7 @@ import ru.ivk1800.resources.app_title
 import ru.ivk1800.resources.build_info
 import ru.ivk1800.resources.compose_version
 import ru.ivk1800.resources.kotlin_version
+import ru.ivk1800.resources.riflesso_title
 import ru.ivk1800.theme.LocalThemeIsDark
 import ru.ivk1800.utils.AlertCircle
 import ru.ivk1800.utils.DarkMode
@@ -49,13 +51,14 @@ import ru.ivk1800.utils.Github
 fun MainScreen() {
     var showBuildInfoDialog by remember { mutableStateOf(false) }
 
+    val uriHandler = LocalUriHandler.current
+
     Scaffold(
         topBar = {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End,
             ) {
-                val uriHandler = LocalUriHandler.current
                 IconButton(
                     onClick = {
                         showBuildInfoDialog = true
@@ -103,6 +106,21 @@ fun MainScreen() {
                         style = MaterialTheme.typography.headlineLarge,
                         textAlign = TextAlign.Center,
                     )
+                }
+
+                item {
+                    ListItem(
+                        modifier = Modifier.clickable {
+                            uriHandler.openUri("https://github.com/ivk1800/Riflesso")
+                        },
+                        headlineContent = {
+                            Text(
+                                text = stringResource(Res.string.riflesso_title),
+                                fontWeight = FontWeight.Bold,
+                            )
+                        },
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(end = LocalScrollbarStyle.current.thickness))
                 }
 
                 val items = SampleDescriptor.entries.toList()

@@ -1,17 +1,19 @@
 [versions]
 
-kotlin = "2.2.20"                   # https://github.com/JetBrains/kotlin/releases
-dependency-guard = "0.5.0"
-compose = "1.9.0"                   # https://github.com/JetBrains/compose-multiplatform/releases
-hotReload = "1.0.0-beta07"          # https://github.com/JetBrains/compose-hot-reload/releases
-ktor = "3.2.1"
-detekt = "1.23.7"
-buildconfig = "5.6.8"
+kotlin = "2.2.21"                   # https://github.com/JetBrains/kotlin/releases
+dependency-guard = "0.5.0"          # https://github.com/dropbox/dependency-guard/releases
+compose = "1.9.3"                   # https://github.com/JetBrains/compose-multiplatform/releases
+hotReload = "1.1.0-alpha03"         # https://github.com/JetBrains/compose-hot-reload/releases
+ktor = "3.3.3"                      # https://github.com/ktorio/ktor/releases
+detekt = "1.23.8"                   # https://github.com/detekt/detekt/releases
+buildconfig = "6.0.7"               # https://github.com/gmazzo/gradle-buildconfig-plugin/releases
+serialization = "1.9.0"             # https://github.com/Kotlin/kotlinx.serialization/releases
+navigation-compos = "2.9.1"         # https://central.sonatype.com/artifact/org.jetbrains.androidx.navigation/navigation-compose/versions
 
 [libraries]
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version = "2.9.0-beta01" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.8.1" }
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation-compos" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

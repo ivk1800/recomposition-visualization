@@ -66,3 +66,9 @@ You can contribute your own Compose examples to the project via **Pull Requests*
     Add entries for the sample's title and explanation.
 
 4. Submit a Pull Request 🏆.
+
+## 🧱 Dependency Guard
+
+`gradlew dependencyGuard`
+
+`gradlew dependencyGuardBaseline`
